@@ -29,7 +29,28 @@ def get_order_items(items, products):
 
 async def create_order(client, items):
   url = mpfit + ""
-  body = { "items": items, "shipment_date": ""}
+  body = {"items": items, "shipment_date": ""}
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
   return result["order"]["id"]
+
+async def get_orders(client, id_list):
+  url = mpfit + ""
+  body = {"limit": 200, "last_id": 0, "filter": {"ids": id_list}}
+  result = await client.post(url=url, headers=mpfit_headers, json=body)
+  result = result.json()
+  return 
+
+async def update_order(client, order, status):
+  url = f"{insales}{order}.json"
+  body = 
+  result = await client.post(url=url, headers=mpfit_headers, json=body)
+  result = result.json()
+  return 
+
+async def update_orders():
+  
+
+
+async def check_order_status(client, id, ):
+  
