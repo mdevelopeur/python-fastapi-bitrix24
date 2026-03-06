@@ -17,6 +17,10 @@ load_dotenv(dotenv_path=".env.local")
 redis_url = os.getenv("REDIS_URL")
 
 async def new_order_handler(data):
+  r = redis.Redis.from_url(redis_url, decode_responses=True)
+  async with httpx.AsyncClient() as client:
+    products = get_products(client, 0)
+    
 
 
 async def get_products(client, last_id):
@@ -40,13 +44,13 @@ def get_order_items(items, products):
   for item in items:
     product = next((product for product in products if product['article'] == item["sku"]), None)
     if product is not None:
-      output.append({"id": product["id"], "quantity": product["quantity"]})
+      output.append({"id": product["id"], "quantity": item["quantity"]})
 
   return output
 
-async def create_order(client, items):
+async def create_order(client, items, id):
   url = mpfit + ""
-  body = {"items": items, "shipment_date": ""}
+  body = {"items": items, "shipment_date": "", "number": id}
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
   return result["order"]["id"]
