@@ -19,9 +19,10 @@ redis_url = os.getenv("REDIS_URL")
 async def new_order_handler(data):
   r = redis.Redis.from_url(redis_url, decode_responses=True)
   async with httpx.AsyncClient() as client:
-    products = get_products(client, 0)
-    
-
+    products = await get_products(client, 0)
+    items = get_items()
+    order_id = await create_order(client, items, id)
+    r.set(order_id, "NEW")
 
 async def get_products(client, last_id):
   url = mpfit + ""
