@@ -74,10 +74,14 @@ async def update_order(client, order, status):
 async def update_orders():
   r = redis.Redis.from_url(redis_url, decode_responses=True)
   keys = r.keys("insales-mpfit:*")
-  statuses = r.mget(keys)
-  id_list = [key.replace("insales-mpfit:","") for key in keys]
-  
-
-
+  values = r.mget(keys)
+  cached_orders = [{key.replace("insales-mpfit:",""): value} for key, value in keys, values]
+  async with httpx.AsyncClient() as client:
+    orders = await get_orders(client, cached_orders.keys(), 0)
+    for order in orders:
+      if order["status"] != cached_orders[order["id"]]:
+        await update_order(client, order["number"], order["status"])
+        r.set(order["id"], order["status"])
+      
 async def check_order_status(client, id, ):
   
