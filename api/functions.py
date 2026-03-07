@@ -14,8 +14,11 @@ import hashlib
 from dotenv import load_dotenv
 
 mpfit = "https://app.mpfit.ru/api/v1/"
+
 load_dotenv(dotenv_path=".env.local")
 redis_url = os.getenv("REDIS_URL")
+mpfit_token = os.getenv("MPFIT_TOKEN")
+mpfit_headers = {"Authorization": f"Bearer {mpfit_token}"}
 
 async def new_order_handler(data):
   r = redis.Redis.from_url(redis_url, decode_responses=True)
