@@ -60,7 +60,7 @@ async def create_order(client, items, id):
   print(body)
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
-  result = result["result"]
+  #result = result["result"]
   return result["order"]["id"]
 
 async def get_orders(client, id_list, last_id):
