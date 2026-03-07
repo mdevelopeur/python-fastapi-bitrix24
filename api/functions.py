@@ -36,6 +36,7 @@ async def get_products(client, last_id):
   }
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
+  result = result["result"]
   #products = result["data"]
   if len(result["data"]) == 200:
     products = await get_products(client, result["last_id"])
@@ -58,6 +59,7 @@ async def create_order(client, items, id):
   body = {"items": items, "shipment_date": "", "number": id}
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
+  result = result["result"]
   return result["order"]["id"]
 
 async def get_orders(client, id_list, last_id):
@@ -65,6 +67,7 @@ async def get_orders(client, id_list, last_id):
   body = {"limit": 200, "last_id": 0, "filter": {"ids": id_list[:200]}}
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
+  result = result["result"]
   id_list = id_list[200:]
   if id_list:
     orders = await get_orders(client, id_list, result["last_id"])
