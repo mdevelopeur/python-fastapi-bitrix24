@@ -13,6 +13,7 @@ import random
 import hashlib
 from dotenv import load_dotenv
 
+mpfit = "https://app.mpfit.ru/api/v1/"
 load_dotenv(dotenv_path=".env.local")
 redis_url = os.getenv("REDIS_URL")
 
@@ -25,7 +26,7 @@ async def new_order_handler(data):
     r.set(order_id, "NEW")
 
 async def get_products(client, last_id):
-  url = mpfit + ""
+  url = mpfit + "products/list"
   body = {
   "limit": 200,
   "last_id": last_id
@@ -50,7 +51,7 @@ def get_order_items(items, products):
   return output
 
 async def create_order(client, items, id):
-  url = mpfit + ""
+  url = mpfit + "orders/create"
   body = {"items": items, "shipment_date": "", "number": id}
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
@@ -71,7 +72,7 @@ async def get_orders(client, id_list, last_id):
 
 async def update_order(client, order, status):
   url = f"{insales}{order}.json"
-  body = 
+  #body = 
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
   return 
