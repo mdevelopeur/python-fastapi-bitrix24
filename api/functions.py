@@ -50,7 +50,7 @@ def get_order_items(items, products):
   for item in items:
     product = next((product for product in products if product['article'] == item["sku"]), None)
     if product is not None:
-      output.append({"id": product["id"], "quantity": item["quantity"]})
+      output.append({"product_id": product["id"], "quantity": item["quantity"]})
 
   return output
 
