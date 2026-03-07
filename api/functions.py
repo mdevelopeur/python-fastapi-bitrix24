@@ -61,7 +61,7 @@ async def create_order(client, items, id):
   return result["order"]["id"]
 
 async def get_orders(client, id_list, last_id):
-  url = mpfit + ""
+  url = mpfit + "orders/list"
   body = {"limit": 200, "last_id": 0, "filter": {"ids": id_list[:200]}}
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
