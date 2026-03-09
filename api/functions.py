@@ -96,7 +96,7 @@ async def update_orders():
     for order in orders:
       if order["status"] != cached_orders[order["id"]]:
         await update_order(client, order["number"], order["status"])
-        r.set(order["id"], order["status"])
+        r.set(f"insales-mpfit:{order["id"]}", order["status"])
       
-async def check_order_status(client, id, ):
+async def check_order_status(client, id):
   ...
