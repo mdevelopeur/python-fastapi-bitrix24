@@ -14,6 +14,7 @@ import hashlib
 from dotenv import load_dotenv
 
 mpfit = "https://app.mpfit.ru/api/v1/"
+insales = "https://myshop-dbn10.myinsales.ru/admin/"
 
 load_dotenv(dotenv_path=".env.local")
 redis_url = os.getenv("REDIS_URL")
@@ -26,7 +27,7 @@ async def new_order_handler(data):
     products = await get_products(client, 0)
     items = get_order_items(data["order_lines"], products)
     order_id = await create_order(client, items, data["id"])
-    r.set(order_id, "NEW")
+    r.set(f"insales-mpfit:{order_id}", "NEW")
 
 async def get_products(client, last_id):
   url = mpfit + "products/list"
@@ -60,7 +61,6 @@ async def create_order(client, items, id):
   print(body)
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
-  #result = result["result"]
   return result["order"]["id"]
 
 async def get_orders(client, id_list, last_id):
@@ -79,7 +79,6 @@ async def get_orders(client, id_list, last_id):
 
 async def update_order(client, order, status):
   url = f"{insales}{order}.json"
-  #body = 
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
   return 
