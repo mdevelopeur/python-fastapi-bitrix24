@@ -14,12 +14,15 @@ import hashlib
 from dotenv import load_dotenv
 
 mpfit = "https://app.mpfit.ru/api/v1/"
-insales = "https://myshop-dbn10.myinsales.ru/admin/"
+insales = "https://myshop-dbn10.myinsales.ru/admin/orders/"
 
 load_dotenv(dotenv_path=".env.local")
 redis_url = os.getenv("REDIS_URL")
 mpfit_token = os.getenv("MPFIT_TOKEN")
 mpfit_headers = {"Authorization": f"Bearer {mpfit_token}", "Content-Type": "application/json"}
+insales_username = os.getenv("INSALES_USERNAME")
+insales_password = os.getenv("INSALES_PASSWORD")
+insales_auth = httpx.BasicAuth(username=insales_username, password=insales_password)
 
 async def new_order_handler(data):
   r = redis.Redis.from_url(redis_url, decode_responses=True)
@@ -79,7 +82,7 @@ async def get_orders(client, id_list, last_id):
 
 async def update_order(client, order, status):
   url = f"{insales}{order}.json"
-  result = await client.post(url=url, headers=mpfit_headers, json=body)
+  result = await client.put(url=url, auth=insales_auth, json=body)
   result = result.json()
   return 
 
