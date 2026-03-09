@@ -1,18 +1,18 @@
 from fastapi import FastAPI, Request
 import multipart
 import re
-from api.functions import new_order_handler
+from api.functions import new_order_handler, update
 #from api.handlers import set_time, update, clear_keys, hash_password
 from urllib.parse import unquote, urlparse
 
 app = FastAPI()
 
 
-@app.get('/api/create')
+@app.get('/api/update')
 async def get_handler():
     try:
-        
-        return 
+        result = await update()
+        return result 
     except Exception as e:
         print(e)
         return e
