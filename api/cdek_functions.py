@@ -6,10 +6,21 @@ async def obtain_cdek_token(client, redis_client):
   result = await client.post(url=url, auth=(cdek_client, cdek_secret))
   result = result.json()
   timestamp = time.now()
-  r.set(f"insales_mpfit_cdek_token:{timestamp}", result["access_token"])
+  token_data = {"token": result["access_token"], "timestamp": timestamp}
+  r.hset("insales_mpfit_cdek_token", mapping=token_data)
   return result["access_token"]
 
-async def get_cdek_order(client, token, id):
+async def get_cdek_token(client, redis_client):
+  token_data = r.hgetall("insales_mpfit_cdek_token")
+  timestamp = time.now()
+  if timestamp - token_data["timestamp"] >= 3600:
+    token = await obtain_cdek_token(client, redis_client)
+    return token
+  else:
+    return token_data["token"]
+    
+async def get_cdek_order(client, redis_client, id):
+  token = get_cdek_token(client, redis_client)
   url = f"https://api.cdek.ru/v2/orders?im_number={id}"
   headers = {"Authorization": f"Bearer {token}"}
   result = await client.get(url=url, headers=headers)
