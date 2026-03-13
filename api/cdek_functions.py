@@ -11,7 +11,7 @@ async def obtain_cdek_token(client, redis_client):
   result = result.json()
   timestamp = time.now()
   token_data = {"token": result["access_token"], "timestamp": timestamp}
-  r.hset("insales_mpfit_cdek_token", mapping=token_data)
+  redis_client.hset("insales_mpfit_cdek_token", mapping=token_data)
   return result["access_token"]
 
 async def get_cdek_token(client, redis_client):
