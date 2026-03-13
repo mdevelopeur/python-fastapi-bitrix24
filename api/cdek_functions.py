@@ -29,4 +29,4 @@ async def get_cdek_order(client, redis_client, id):
   headers = {"Authorization": f"Bearer {token}"}
   result = await client.get(url=url, headers=headers)
   result = result.json()
-  return 
+  return result
