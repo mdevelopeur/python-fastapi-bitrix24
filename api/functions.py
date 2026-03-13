@@ -26,6 +26,18 @@ insales_username = os.getenv("INSALES_USERNAME")
 insales_password = os.getenv("INSALES_PASSWORD")
 insales_auth = httpx.BasicAuth(username=insales_username, password=insales_password)
 
+statuses = {
+  "PRODUCTS_RESERVED": 
+  "EQUIPMENT": 
+  "READY_TO_SHIP": 
+  "SHIPPED": 
+  "DELIVERY": 
+  "COMPLETE": 
+  "REJECT": 
+  "CANCEL":
+  "ARCHIVE": 
+}
+  
 async def new_order_handler(data):
   r = redis.Redis.from_url(redis_url, decode_responses=True)
   async with httpx.AsyncClient() as client:
@@ -84,6 +96,8 @@ async def get_orders(client, id_list, last_id):
 
 async def update_order(client, order, status):
   url = f"{insales}{order}.json"
+  status = statuses[status]
+  body = {"order": {"custom_status_permalink": status}}
   result = await client.put(url=url, auth=insales_auth, json=body)
   result = result.json()
   return 
