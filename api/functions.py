@@ -12,6 +12,8 @@ import string
 import random 
 import hashlib
 from dotenv import load_dotenv
+from api.cdek_functions import get_cdek_tracking_number
+from api.pochta_functions import get_pochta_tracking_number
 
 mpfit = "https://app.mpfit.ru/api/v1/"
 insales = "https://myshop-dbn10.myinsales.ru/admin/orders/"
@@ -100,3 +102,13 @@ async def update_orders():
       
 async def check_order_status(client, id):
   ...
+
+async def get_tracking_number(client, redis_client, id):
+  try:
+    tracking_number = await get_cdek_tracking_number(client, redis_client, id)
+    if tracking_number is None:
+      tracking_number = await get_pochta_tracking_number(client, redis_client, id)
+    return tracking_number
+  except Exception as e:
+    print(e)
+    return None
