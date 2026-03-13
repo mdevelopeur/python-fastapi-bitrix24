@@ -1,5 +1,9 @@
 import time
 
+load_dotenv(dotenv_path=".env.local")
+cdek_client = os.getenv("CDEK_CLIENT")
+cdek_secret = os.getenv("CDEK_SECRET")
+
 
 async def obtain_cdek_token(client, redis_client):
   url = "https://api.cdek.ru/v2/oauth/token?grant_type=client_credentials"
