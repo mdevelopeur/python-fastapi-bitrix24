@@ -1,4 +1,4 @@
-irom dotenv import load_dotenv
+iirom dotenv import load_dotenv
 mport time
 import os
 
