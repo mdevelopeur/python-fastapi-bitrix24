@@ -1,4 +1,4 @@
-iirfrom dotenv import load_dotenv
+from dotenv import load_dotenv
 import time
 import os
 
