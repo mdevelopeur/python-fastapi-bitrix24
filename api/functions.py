@@ -27,15 +27,14 @@ insales_password = os.getenv("INSALES_PASSWORD")
 insales_auth = httpx.BasicAuth(username=insales_username, password=insales_password)
 
 statuses = {
-  "PRODUCTS_RESERVED": 
-  "EQUIPMENT": 
-  "READY_TO_SHIP": 
-  "SHIPPED": 
-  "DELIVERY": 
-  "COMPLETE": 
-  "REJECT": 
-  "CANCEL":
-  "ARCHIVE": 
+  "PRODUCTS_RESERVED": "v-obrabotke",
+  "EQUIPMENT": "v-obrabotke",
+  "READY_TO_SHIP": "soglasovan",
+  "SHIPPED": "dispatched",
+  "DELIVERY": "dispatched",
+  "COMPLETE": "dostavlen",
+  "REJECT": "vozvrat",
+  "CANCEL": "otmenen"
 }
   
 async def new_order_handler(data):
