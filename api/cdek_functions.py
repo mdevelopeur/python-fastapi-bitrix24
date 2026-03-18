@@ -1,4 +1,6 @@
-import time
+ifrom dotenv import load_dotenv
+mport time
+import os
 
 load_dotenv(dotenv_path=".env.local")
 cdek_client = os.getenv("CDEK_CLIENT")
