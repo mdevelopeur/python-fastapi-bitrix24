@@ -25,7 +25,7 @@ async def get_cdek_token(client, redis_client):
   else:
     return token_data["token"]
     
-async def get_cdek_order(client, redis_client, id):
+async def get_cdek_tracking_number(client, redis_client, id):
   token = get_cdek_token(client, redis_client)
   url = f"https://api.cdek.ru/v2/orders?im_number={id}"
   headers = {"Authorization": f"Bearer {token}"}
