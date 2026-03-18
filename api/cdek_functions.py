@@ -1,5 +1,5 @@
-iirom dotenv import load_dotenv
-mport time
+iirfrom dotenv import load_dotenv
+import time
 import os
 
 load_dotenv(dotenv_path=".env.local")
