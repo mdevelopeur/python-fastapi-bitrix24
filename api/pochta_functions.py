@@ -13,7 +13,7 @@ pochta_headers = {
   "Content-Type": "application/json;charset=UTF-8"
 }
                   
-async def get_pochta_order_status(client, order):
+async def get_pochta_tracking_number(client, order):
   url = f"https://otpravka-api.pochta.ru/1.0/backlog/search?query={order}"
   result = await client.get(url=url, headers=pochta_headers)
   result = result.json()
