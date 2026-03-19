@@ -45,7 +45,7 @@ async def new_order_handler(data):
     note = f"""
        Имя: {data["shipping_address"]["full_name"]};
        Телефон: {data["shipping_address"]["phone"]};
-       Адрес: data["shipping_address"]["full_address"]}
+       Адрес: {data["shipping_address"]["full_address"]}
     """
     order_id = await create_order(client, items, note, data["id"])
     r.set(f"insales-mpfit:{order_id}", "NEW")
