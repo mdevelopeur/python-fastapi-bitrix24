@@ -111,8 +111,9 @@ async def update_orders():
   keys = r.keys("insales-mpfit:*")
   values = r.mget(keys)
   cached_orders = {key.replace("insales-mpfit:",""): value for key, value in zip(keys, values)}
+  print(cached_orders)
   async with httpx.AsyncClient() as client:
-    orders = await get_orders(client, cached_orders.keys(), 0)
+    orders = await get_orders(client, list(cached_orders.keys()), 0)
     for order in orders:
       if order["status"] != cached_orders[order["id"]]:
         await update_order(client, order["number"], order["status"])
