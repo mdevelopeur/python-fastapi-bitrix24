@@ -76,7 +76,7 @@ def get_order_items(items, products):
 
   return output
 
-async def create_order(client, items, note id):
+async def create_order(client, items, note, id):
   url = mpfit + "orders/create"
   body = {"items": items, "shipment_date": "2024-04-20T09:20:06Z", "number": id, "note": note}
   print(body)
