@@ -42,7 +42,12 @@ async def new_order_handler(data):
   async with httpx.AsyncClient() as client:
     products = await get_products(client, 0)
     items = get_order_items(data["order_lines"], products)
-    order_id = await create_order(client, items, data["id"])
+    note = f"""
+       Имя: {data["shipping_address"]["full_name"]};
+       Телефон: {data["shipping_address"]["phone"]};
+       Адрес: data["shipping_address"]["full_address"]}
+    """
+    order_id = await create_order(client, items, note, data["id"])
     r.set(f"insales-mpfit:{order_id}", "NEW")
 
 async def get_products(client, last_id):
@@ -71,9 +76,9 @@ def get_order_items(items, products):
 
   return output
 
-async def create_order(client, items, id):
+async def create_order(client, items, note id):
   url = mpfit + "orders/create"
-  body = {"items": items, "shipment_date": "2024-04-20T09:20:06Z", "number": id}
+  body = {"items": items, "shipment_date": "2024-04-20T09:20:06Z", "number": id, "note": note}
   print(body)
   result = await client.post(url=url, headers=mpfit_headers, json=body)
   result = result.json()
