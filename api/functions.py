@@ -47,13 +47,13 @@ async def new_order_handler(data):
        Телефон: {data["shipping_address"]["phone"]};
        Адрес: {data["shipping_address"]["full_delivery_address"]};
        Подъезд: {data["shipping_address"]["entrance"]};
-       Этаж: data["shipping_address"]["full_delivery_address"]};
-       Домофон: data["shipping_address"]["full_delivery_address"]};
-       Комментарий к доставке: data["shipping_address"]["full_delivery_address"]};
+       Этаж: {data["shipping_address"]["full_delivery_address"]};
+       Домофон: {data["shipping_address"]["full_delivery_address"]};
+       Комментарий к доставке: {data["shipping_address"]["full_delivery_address"]};
        
-       Способ оплаты: data["payment_title"];
-       Комментарий покупателя: data["comment"];
-       Комментарий продавца: data["manager_comment"]
+       Способ оплаты: {data["payment_title"]};
+       Комментарий покупателя: {data["comment"]};
+       Комментарий продавца: {data["manager_comment"]}
     """
     order_id = await create_order(client, items, note, data["id"])
     r.set(f"insales-mpfit:{order_id}", "NEW")
