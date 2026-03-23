@@ -43,17 +43,18 @@ async def new_order_handler(data):
     products = await get_products(client, 0)
     items = get_order_items(data["order_lines"], products)
     note = f"""
-       Полное имя: {data["shipping_address"]["full_name"]};
-       Телефон: {data["shipping_address"]["phone"]};
-       Адрес: {data["shipping_address"]["full_delivery_address"]};
-       Подъезд: {data["shipping_address"]["entrance"]};
-       Этаж: {data["shipping_address"]["full_delivery_address"]};
-       Домофон: {data["shipping_address"]["full_delivery_address"]};
-       Комментарий к доставке: {data["shipping_address"]["full_delivery_address"]};
+       Полное имя: {check(data["shipping_address"]["full_name"])};
+       Телефон: {check(data["shipping_address"]["phone"])};
+       Адрес: {check(data["shipping_address"]["full_delivery_address"])};
+       Подъезд: {check(data["shipping_address"]["entrance"])};
+       Этаж: {check(data["shipping_address"]["floor"])};
+       Домофон: {check(data["shipping_address"]["doorphone"])};
+       Способ доставки: {check (data["delivery_title"])}
+       Комментарий к доставке: {check(data["shipping_address"]["comment"])};
        
-       Способ оплаты: {data["payment_title"]};
-       Комментарий покупателя: {data["comment"]};
-       Комментарий продавца: {data["manager_comment"]}
+       Способ оплаты: {check(data["payment_title"])};
+       Комментарий покупателя: {check(data["comment"])};
+       Комментарий продавца: {check(data["manager_comment"])}
     """
     order_id = await create_order(client, items, note, data["id"])
     r.set(f"insales-mpfit:{order_id}", "NEW")
@@ -139,3 +140,6 @@ async def get_tracking_number(client, redis_client, id):
   except Exception as e:
     print(e)
     return None
+
+def check(value):
+  return "" if value is None else value
