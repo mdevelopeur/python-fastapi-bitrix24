@@ -20,6 +20,7 @@ async def get_handler():
 @app.post('/api/create')
 async def post_handler(request: Request):
     try:
+        print(request)
         body = await request.json()
         print(body)
         result = await new_order_handler(body)
@@ -27,4 +28,8 @@ async def post_handler(request: Request):
     except Exception as e:
         print(e)
         return e
+        
+@app.post('/api/webhook')
+async def webhook(request: Request):
+    ...
         
