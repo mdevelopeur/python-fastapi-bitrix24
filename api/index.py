@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
+from typing import Annotated
 import multipart
 import re
 from api.functions import new_order_handler, update_orders
@@ -17,11 +18,11 @@ async def get_handler():
         print(e)
         return e
 
-@app.post('/api/create')
-async def post_handler(request: Request):
+@app.post('/api/post')
+async def post_handler(request: Request, ):
     try:
         body = await request.body()
-        print(body)
+        print(unquote(body))
         body = await request.json()
         print(body)
         result = await new_order_handler(body)
