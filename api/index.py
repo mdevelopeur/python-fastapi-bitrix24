@@ -20,7 +20,8 @@ async def get_handler():
 @app.post('/api/create')
 async def post_handler(request: Request):
     try:
-        print(request)
+        body = await request.body()
+        print(body)
         body = await request.json()
         print(body)
         result = await new_order_handler(body)
