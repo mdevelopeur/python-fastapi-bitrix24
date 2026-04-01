@@ -19,7 +19,7 @@ async def get_handler():
         return e
 
 @app.post('/api/post')
-async def post_handler(request: Request, ):
+async def post_handler(request: Request):
     try:
         body = await request.body()
         print(unquote(body))
