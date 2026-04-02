@@ -17,12 +17,13 @@ load_dotenv(dotenv_path=".env.local")
 redis_url = os.getenv("REDIS_URL")
 bitrix24_url = os.getenv("BITRIX24_URL")
 
-async def new_collab_handler(id):
+async def collab_update_handler(id):
   r = redis.Redis.from_url(redis_url, decode_responses=True)
   async with httpx.AsyncClient() as client:
     collab_data = await get_collab_data(client, id)
-    if collab_data["TYPE"] == "collab":
-      
+    if collab_data["TYPE"] == "collab" and collab_data["USERS"] > collab_data["MODERATORS"]:
+      mapping = {"
+      r.hset(f"b24-collab:{id}", mapppin
 
     order_id = await create_order(client, items, note, data["id"])
     r.set(f"insales-mpfit:{order_id}", "NEW")
