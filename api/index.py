@@ -36,7 +36,7 @@ async def post_handler(request: Request):
         
 @app.get('/api/index', response_class=HTMLResponse)
 async def read_index():
-    return HTMLresponse('html')
+    return HTMLResponse('html')
 
 html = """
 <!DOCTYPE html>
