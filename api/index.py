@@ -51,10 +51,7 @@ html = """
     <script> 
         button = document.getElementById("createAppointment");
         button.addEventListener((e)=> {
-           modalWidget = new WrEmbedded( 
-              path: "/schedule?filial=1&departments=40001402&doctors=10000002&modal=true", 
-              modal: true
-           ) 
+           modalWidget = new WrEmbedded(path: "/schedule?filial=1&departments=40001402&doctors=10000002&modal=true", modal: true) 
         })
     </script>
 </body>
