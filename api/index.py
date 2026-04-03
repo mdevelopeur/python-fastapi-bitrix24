@@ -50,7 +50,7 @@ html = """
     <div id="container"></div>
     <p>This page is rendered using Jinja2 template.</p>
     <script> 
-        window.widget = new WrEmbedded(container: document.getElementById("container")); 
+        window.widget = new WrEmbedded({container: document.getElementById("container")}); 
     </script> 
     <script> 
         button = document.getElementById("createAppointment");
