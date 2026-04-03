@@ -4,3 +4,4 @@ dotenv
 packaging
 redis
 python-multipart
+jinja2
