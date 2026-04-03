@@ -47,7 +47,11 @@ html = """
 </head>
 <body>
     <button id="createAppointment">Запись</button>
+    <div id="container"></div>
     <p>This page is rendered using Jinja2 template.</p>
+    <script> 
+        window.widget = new WrEmbedded(container: document.getElementById("container")); 
+    </script> 
     <script> 
         button = document.getElementById("createAppointment");
         button.addEventListener("click", (e)=> {
