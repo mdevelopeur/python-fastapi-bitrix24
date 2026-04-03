@@ -50,12 +50,12 @@ html = """
     <div id="container"></div>
     <p>This page is rendered using Jinja2 template.</p>
     <script> 
-        window.widget = new WrEmbedded({container: document.getElementById("container")}); 
+        //window.widget = new WrEmbedded({container: document.getElementById("container")}); 
     </script> 
     <script> 
         button = document.getElementById("createAppointment");
         button.addEventListener("click", (e)=> {
-           modalWidget = new WrEmbedded({path: "/schedule?filial=1&departments=40001402&doctors=10000002&modal=true", modal: true}) 
+           modalWidget = new WrEmbedded({path: "/schedule?filial=1&departments=1&doctors=524&modal=true", modal: true}) 
         })
     </script>
 </body>
