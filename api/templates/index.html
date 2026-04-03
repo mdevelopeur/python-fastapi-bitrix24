@@ -5,10 +5,10 @@
     <script src="https://ilabvr.infoclinica.ru/assets/javascripts/embedded/embedded.build.min.js"></script> 
 </head>
 <body>
-    <button>Запись</button>
+    <button id="createAppointment">Запись</button>
     <p>This page is rendered using Jinja2 template.</p>
     <script> 
-        button = document.getElementById("button");
+        button = document.getElementById("createAppointment");
         button.addEventListener((e)=> {
            modalWidget = new WrEmbedded( 
               path: "/schedule?filial=1&departments=40001402&doctors=10000002&modal=true", 
