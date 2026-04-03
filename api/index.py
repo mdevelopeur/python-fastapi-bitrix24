@@ -34,7 +34,7 @@ async def post_handler(request: Request):
         print(e)
         return e
         
-@app.get('/api/', response_class=HTMLResponse)
+@app.get('/api/index', response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse(
         "index.html",
