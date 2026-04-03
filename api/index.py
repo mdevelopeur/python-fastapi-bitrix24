@@ -1,4 +1,6 @@
 from fastapi import FastAPI, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from typing import Annotated
 import multipart
 import re
@@ -8,6 +10,7 @@ from urllib.parse import unquote, urlparse
 
 app = FastAPI()
 
+templates = Jinja2Templates(directory="templates")
 
 @app.get('/api/update')
 async def get_handler():
@@ -31,7 +34,9 @@ async def post_handler(request: Request):
         print(e)
         return e
         
-@app.post('/api/webhook')
-async def webhook(request: Request):
-    ...
-        
+@app.post('/api/', response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse(
+        "index.html",
+        {"request": request, "name": "John"}
+    )
