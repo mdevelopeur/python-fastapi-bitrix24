@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
 import multipart
@@ -35,8 +35,5 @@ async def post_handler(request: Request):
         return e
         
 @app.get('/api/index', response_class=HTMLResponse)
-def home(request: Request):
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "name": "John"}
-    )
+async def read_index():
+    return FileResponse('templates/index.html')
