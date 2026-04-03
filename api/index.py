@@ -10,7 +10,7 @@ from urllib.parse import unquote, urlparse
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory="templates")
+#templates = Jinja2Templates(directory="templates")
 
 @app.get('/api/update')
 async def get_handler():
@@ -36,4 +36,26 @@ async def post_handler(request: Request):
         
 @app.get('/api/index', response_class=HTMLResponse)
 async def read_index():
-    return FileResponse('templates/index.html')
+    return HTMLresponse('html')
+
+html = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Запись на прием</title>
+    <script src="https://ilabvr.infoclinica.ru/assets/javascripts/embedded/embedded.build.min.js"></script> 
+</head>
+<body>
+    <button id="createAppointment">Запись</button>
+    <p>This page is rendered using Jinja2 template.</p>
+    <script> 
+        button = document.getElementById("createAppointment");
+        button.addEventListener((e)=> {
+           modalWidget = new WrEmbedded( 
+              path: "/schedule?filial=1&departments=40001402&doctors=10000002&modal=true", 
+              modal: true) 
+        })
+    </script>
+</body>
+</html>
+"""
