@@ -37,11 +37,28 @@ async def get_collab_data(client, id):
   return response["result"]
 
 #Создать объект CRM
-
+async def create_crm_object(client, id):
+  url = bitrix24_url + "socialnetwork.api.workgroup.get"
+  body = {"params": {"groupId": id} }
+  response = await client.post(url, json=body)
+  response = response.json()
+  return response["result"]
+  
 #Создать задачи
-
+async def create_tasks(client, id):
+  url = bitrix24_url + "socialnetwork.api.workgroup.get"
+  body = {"params": {"groupId": id} }
+  response = await client.post(url, json=body)
+  response = response.json()
+  return response["result"]
+  
 #Изменить стадию обьекта CRM по выполнении задачи
-
+async def update_crm_object_stage(client, id):
+  url = bitrix24_url + "socialnetwork.api.workgroup.get"
+  body = {"params": {"groupId": id} }
+  response = await client.post(url, json=body)
+  response = response.json()
+  return response["result"]
 
 async def update_orders():
   r = redis.Redis.from_url(redis_url, decode_responses=True)
