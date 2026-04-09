@@ -44,10 +44,10 @@ async def create_crm_object(client, id):
   response = response.json()
   return response["result"]
   
-#Создать задачи
-async def create_tasks(client, id):
-  url = bitrix24_url + "socialnetwork.api.workgroup.get"
-  body = {"params": {"groupId": id} }
+#Создать задачу
+async def create_task(client, group_id, responsible_id):
+  url = bitrix24_url + "tasks.task.add"
+  body = {"fields": {"title": "", "responsibleId": responsible_id, "groupId": group_id} }
   response = await client.post(url, json=body)
   response = response.json()
   return response["result"]
