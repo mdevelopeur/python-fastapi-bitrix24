@@ -38,8 +38,8 @@ async def get_collab_data(client, id):
 
 #Создать объект CRM
 async def create_crm_object(client, id):
-  url = bitrix24_url + "socialnetwork.api.workgroup.get"
-  body = {"params": {"groupId": id} }
+  url = bitrix24_url + "crm.item.add"
+  body = {"entityTypeId": ,"fields": {"groupId": id} }
   response = await client.post(url, json=body)
   response = response.json()
   return response["result"]
