@@ -73,18 +73,3 @@ async def update_orders():
         await update_order(client, order["number"], order["status"])
         r.set(f"insales-mpfit:{order["id"]}", order["status"])
       
-async def check_order_status(client, id):
-  ...
-
-async def get_tracking_number(client, redis_client, id):
-  try:
-    tracking_number = await get_cdek_tracking_number(client, redis_client, id)
-    if tracking_number is None:
-      tracking_number = await get_pochta_tracking_number(client, redis_client, id)
-    return tracking_number
-  except Exception as e:
-    print(e)
-    return None
-
-def check(value):
-  return "" if value is None else value
