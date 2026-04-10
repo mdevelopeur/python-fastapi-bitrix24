@@ -53,9 +53,9 @@ async def create_task(client, group_id, responsible_id):
   return response["result"]
   
 #Изменить стадию обьекта CRM по выполнении задачи
-async def update_crm_object_stage(client, id):
-  url = bitrix24_url + "socialnetwork.api.workgroup.get"
-  body = {"params": {"groupId": id} }
+async def update_crm_object_stage(client, id, stage):
+  url = bitrix24_url + "crm.item.update"
+  body = {"entityTypeId": , "id": id, "fields": {"stageId": stage} }
   response = await client.post(url, json=body)
   response = response.json()
   return response["result"]
