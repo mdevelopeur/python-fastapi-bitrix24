@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
+from functions import collab_update_handler
 import multipart
 import re
 
@@ -29,8 +30,8 @@ async def post_handler(request: Request):
         #body = await request.json()
         #print(body)
         form_data = await request.form()
-        print(dict(form_data))
-        result = await new_order_handler(body)
+        form_data = dict(form_data)
+        result = await new_order_handler(form_data["data[FIELDS][ID]"])
         return result
     except Exception as e:
         print(e)
