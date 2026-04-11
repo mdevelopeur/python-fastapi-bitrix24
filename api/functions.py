@@ -19,6 +19,7 @@ bitrix24_url = os.getenv("BITRIX24_URL")
 
 template_list = [1, 2, 3]
 
+
 async def collab_update_handler(id):
   r = redis.Redis.from_url(redis_url, decode_responses=True)
   collab_list = r.lrange("bitrix24_collabs", 0, -1)
