@@ -26,8 +26,10 @@ async def post_handler(request: Request):
     try:
         body = await request.body()
         print(unquote(body))
-        body = await request.json()
-        print(body)
+        #body = await request.json()
+        #print(body)
+        form_data = await request.form()
+        print(dict(form_data))
         result = await new_order_handler(body)
         return result
     except Exception as e:
