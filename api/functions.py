@@ -27,7 +27,7 @@ async def collab_update_handler(id):
   
   async with httpx.AsyncClient() as client:
     collab_data = await get_collab_data(client, id)
-    if collab_data["TYPE"] == "collab" and collab_data["USERS"] > collab_data["MODERATORS"] and id not in collab_list:
+    if collab_data["TYPE"] == "collab" and collab_data["ORDINARY_MEMBERS"] and id not in collab_list:
       users = await get_users(client)
       extranet_users = [user for user in users if user["ID"] in collab_data["MEMBERS"]]
       if extranet_users:
