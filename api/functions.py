@@ -62,6 +62,16 @@ async def create_task(client, group_id, creator_id, responsible_id, template_id)
   response = response.json()
   return response["result"]
 
+async def create_task_connection(client, task_id_from, task_id_to):
+  url = bitrix24_url + "task.dependence.add"
+  body = {
+    "taskIdFrom": task_id_from,
+    "taskIdTo": task_id_to,
+    "linkType": 3
+  }
+  response = await client.post(url, json=body)
+  response = response.json()
+  return response["result"]
 #async def batch_create_tasks(client, task_list):
   
 #Изменить стадию обьекта CRM по выполнении задачи
