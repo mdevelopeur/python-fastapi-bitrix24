@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
-from functions import collab_update_handler
+from api.functions import collab_update_handler
 import multipart
 import re
 
