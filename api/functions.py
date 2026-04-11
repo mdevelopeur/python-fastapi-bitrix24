@@ -17,7 +17,7 @@ load_dotenv(dotenv_path=".env.local")
 redis_url = os.getenv("REDIS_URL")
 bitrix24_url = os.getenv("BITRIX24_URL")
 
-template_list = []
+template_list = [1, 2, 3]
 
 async def collab_update_handler(id):
   r = redis.Redis.from_url(redis_url, decode_responses=True)
