@@ -24,6 +24,8 @@ async def collab_update_handler(id):
   async with httpx.AsyncClient() as client:
     collab_data = await get_collab_data(client, id)
     if collab_data["TYPE"] == "collab" and collab_data["USERS"] > collab_data["MODERATORS"]:
+      users = await get_users(client)
+      if 
       crm_object_id = await create_crm_object(client)
       
 
@@ -35,7 +37,20 @@ async def get_collab_data(client, id):
   response = await client.post(url, json=body)
   response = response.json()
   return response["result"]
-
+  
+def check_users(collab_user_list, user_list):
+  
+async def get_users(client):
+  url = bitrix24_url + "user.get"
+  body = {
+    "filter": {
+      "user_type": "extranet"
+    }
+  }
+  response = await client.post(url, json=body)
+  response = response.json()
+  return response["result"]
+  
 #Создать объект CRM
 async def create_crm_object(client):
   url = bitrix24_url + "crm.item.add"
