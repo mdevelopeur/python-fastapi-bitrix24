@@ -58,7 +58,7 @@ async def get_users(client):
 async def create_crm_object(client):
   url = bitrix24_url + "crm.item.add"
   body = {
-    "entityTypeId": 3,
+    "entityTypeId": 2,
     "fields": {
       
     } 
@@ -106,7 +106,7 @@ async def create_task_connection(client, task_id_from, task_id_to):
 #Изменить стадию обьекта CRM по выполнении задачи
 async def update_crm_object_stage(client, id, stage):
   url = bitrix24_url + "crm.item.update"
-  body = {"entityTypeId": , "id": id, "fields": {"stageId": stage} }
+  body = {"entityTypeId": 2, "id": id, "fields": {"stageId": stage} }
   response = await client.post(url, json=body)
   response = response.json()
   return response["result"]
