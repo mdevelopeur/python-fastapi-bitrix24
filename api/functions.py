@@ -21,15 +21,17 @@ template_list = [1, 2, 3]
 
 async def collab_update_handler(id):
   r = redis.Redis.from_url(redis_url, decode_responses=True)
+  collab_list = r.lrange("bitrix24_collabs", 0, -1)
+  
   async with httpx.AsyncClient() as client:
     collab_data = await get_collab_data(client, id)
-    if collab_data["TYPE"] == "collab" and collab_data["USERS"] > collab_data["MODERATORS"]:
+    if collab_data["TYPE"] == "collab" and collab_data["USERS"] > collab_data["MODERATORS"] and id not in collab_list:
       users = await get_users(client)
       extranet_users = [user for user in users if user["ID"] in collab_data["MEMBERS"]]
       if extranet_users:
         crm_object_id = await create_crm_object(client)
         await create_tasks(client, id, crm_object_id, collab_data["OWNER_ID"], extranet_users[0]["ID"], template_list)
-
+        r.rpush("bitrix24_collabs", id)
   
 #Получить данные коллаборации по id
 async def get_collab_data(client, id):
