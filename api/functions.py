@@ -17,6 +17,8 @@ load_dotenv(dotenv_path=".env.local")
 redis_url = os.getenv("REDIS_URL")
 bitrix24_url = os.getenv("BITRIX24_URL")
 
+template_list = []
+
 async def collab_update_handler(id):
   r = redis.Redis.from_url(redis_url, decode_responses=True)
   async with httpx.AsyncClient() as client:
@@ -45,12 +47,22 @@ async def create_crm_object(client, id):
   return response["result"]
   
 #Создать задачу
-async def create_task(client, group_id, responsible_id):
+async def create_task(client, group_id, creator_id, responsible_id, template_id):
   url = bitrix24_url + "tasks.task.add"
-  body = {"fields": {"title": "", "responsibleId": responsible_id, "groupId": group_id} }
+  body = {
+    "fields": {
+      "title": "", 
+      "createdBy": creator_id,
+      "responsibleId": responsible_id, 
+      "groupId": group_id,
+      "forkedByTemplateId": template_id
+    } 
+  }
   response = await client.post(url, json=body)
   response = response.json()
   return response["result"]
+
+#async def batch_create_tasks(client, task_list):
   
 #Изменить стадию обьекта CRM по выполнении задачи
 async def update_crm_object_stage(client, id, stage):
