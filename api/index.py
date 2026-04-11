@@ -5,6 +5,7 @@ from typing import Annotated
 from api.functions import collab_update_handler
 import multipart
 import re
+import traceback
 
 #from api.handlers import set_time, update, clear_keys, hash_password
 from urllib.parse import unquote, urlparse
@@ -35,6 +36,7 @@ async def post_handler(request: Request):
         return result
     except Exception as e:
         print(e)
+        traceback.print_exc()
         return e
         
 @app.get('/api/index', response_class=HTMLResponse)
