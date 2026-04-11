@@ -31,7 +31,7 @@ async def post_handler(request: Request):
         #print(body)
         form_data = await request.form()
         form_data = dict(form_data)
-        result = await new_order_handler(form_data["data[FIELDS][ID]"])
+        result = await collab_update_handler(form_data["data[FIELDS][ID]"])
         return result
     except Exception as e:
         print(e)
