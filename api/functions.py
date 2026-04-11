@@ -24,7 +24,7 @@ async def collab_update_handler(id):
   print(redis_url)
   r = redis.Redis.from_url(redis_url, decode_responses=True)
   collab_list = r.lrange("bitrix24_collabs", 0, -1)
-  
+  print(collab_list)
   async with httpx.AsyncClient() as client:
     collab_data = await get_collab_data(client, id)
     if collab_data["TYPE"] == "collab" and collab_data["ORDINARY_MEMBERS"] and id not in collab_list:
