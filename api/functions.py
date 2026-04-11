@@ -25,10 +25,10 @@ async def collab_update_handler(id):
     collab_data = await get_collab_data(client, id)
     if collab_data["TYPE"] == "collab" and collab_data["USERS"] > collab_data["MODERATORS"]:
       users = await get_users(client)
-      extranet_users = [user for user in users if user["ID"] in collab_data]
+      extranet_users = [user for user in users if user["ID"] in collab_data["MEMBERS"]]
       if extranet_users:
         crm_object_id = await create_crm_object(client)
-        await create_tasks(client, id, crm_object_id, collab_data, extranet_users[0], template_list)
+        await create_tasks(client, id, crm_object_id, collab_data["OWNER_ID"], extranet_users[0]["ID"], template_list)
 
   
 #Получить данные коллаборации по id
@@ -39,7 +39,7 @@ async def get_collab_data(client, id):
   response = response.json()
   return response["result"]
   
-def check_users(collab_user_list, user_list):
+#def check_users(collab_user_list, user_list):
   
 async def get_users(client):
   url = bitrix24_url + "user.get"
@@ -63,7 +63,7 @@ async def create_crm_object(client):
   }
   response = await client.post(url, json=body)
   response = response.json()
-  return response["result"]
+  return response["result"]["ID"]
 
 async def create_tasks(client, group_id, crm_object_id, creator_id, responsible_id, template_list):
   task_list = []
