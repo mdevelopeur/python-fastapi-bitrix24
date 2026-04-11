@@ -24,12 +24,10 @@ async def collab_update_handler(id):
   async with httpx.AsyncClient() as client:
     collab_data = await get_collab_data(client, id)
     if collab_data["TYPE"] == "collab" and collab_data["USERS"] > collab_data["MODERATORS"]:
-      mapping = {"
-      r.hset(f"b24-collab:{id}", mapppin
+      crm_object_id = await create_crm_object(client)
+      
 
-    order_id = await create_order(client, items, note, data["id"])
-    r.set(f"insales-mpfit:{order_id}", "NEW")
-
+  
 #Получить данные коллаборации по id
 async def get_collab_data(client, id):
   url = bitrix24_url + "socialnetwork.api.workgroup.get"
@@ -39,19 +37,23 @@ async def get_collab_data(client, id):
   return response["result"]
 
 #Создать объект CRM
-async def create_crm_object(client, id):
+async def create_crm_object(client):
   url = bitrix24_url + "crm.item.add"
-  body = {"entityTypeId": ,"fields": {"groupId": id} }
+  body = {
+    "entityTypeId": 3,
+    "fields": {
+      
+    } 
+  }
   response = await client.post(url, json=body)
   response = response.json()
   return response["result"]
   
 #Создать задачу
-async def create_task(client, group_id, creator_id, responsible_id, template_id):
+async def create_task(client, group_id, crm_object_id, creator_id, responsible_id, template_id):
   url = bitrix24_url + "tasks.task.add"
   body = {
     "fields": {
-      "title": "", 
       "createdBy": creator_id,
       "responsibleId": responsible_id, 
       "groupId": group_id,
