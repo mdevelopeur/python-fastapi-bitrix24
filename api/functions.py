@@ -48,7 +48,15 @@ async def create_crm_object(client):
   response = await client.post(url, json=body)
   response = response.json()
   return response["result"]
-  
+
+async def create_tasks(client, group_id, crm_object_id, creator_id, responsible_id, template_list):
+  task_list = []
+  for template_id in template_list:
+    task_id = await create_task(client, group_id, crm_object_id, creator_id, responsible_id, template_id)
+    task_list.append(task_if)
+  for i in range(0, len(task_list), 2):
+    await create_task_connection(client, task_list[i - 1], task_list[i])
+
 #Создать задачу
 async def create_task(client, group_id, crm_object_id, creator_id, responsible_id, template_id):
   url = bitrix24_url + "tasks.task.add"
@@ -57,6 +65,7 @@ async def create_task(client, group_id, crm_object_id, creator_id, responsible_i
       "createdBy": creator_id,
       "responsibleId": responsible_id, 
       "groupId": group_id,
+      "UF_AUTO_710940755509": crm_object_id,
       "forkedByTemplateId": template_id
     } 
   }
@@ -83,17 +92,3 @@ async def update_crm_object_stage(client, id, stage):
   response = await client.post(url, json=body)
   response = response.json()
   return response["result"]
-
-async def update_orders():
-  r = redis.Redis.from_url(redis_url, decode_responses=True)
-  keys = r.keys("insales-mpfit:*")
-  values = r.mget(keys)
-  cached_orders = {key.replace("insales-mpfit:",""): value for key, value in zip(keys, values)}
-  print(cached_orders)
-  async with httpx.AsyncClient() as client:
-    orders = await get_orders(client, list(cached_orders.keys()), 0)
-    for order in orders:
-      if order["status"] != cached_orders[order["id"]]:
-        await update_order(client, order["number"], order["status"])
-        r.set(f"insales-mpfit:{order["id"]}", order["status"])
-      
