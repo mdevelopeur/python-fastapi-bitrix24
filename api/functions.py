@@ -25,9 +25,10 @@ async def collab_update_handler(id):
     collab_data = await get_collab_data(client, id)
     if collab_data["TYPE"] == "collab" and collab_data["USERS"] > collab_data["MODERATORS"]:
       users = await get_users(client)
-      if 
-      crm_object_id = await create_crm_object(client)
-      
+      extranet_users = [user for user in users if user["ID"] in collab_data]
+      if extranet_users:
+        crm_object_id = await create_crm_object(client)
+        await create_tasks(client, id, crm_object_id, collab_data, extranet_users[0], template_list)
 
   
 #Получить данные коллаборации по id
