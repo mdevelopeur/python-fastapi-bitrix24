@@ -20,21 +20,35 @@ bitrix24_url = os.getenv("BITRIX24_URL")
 template_list = [1, 2, 3]
 
 
-async def collab_update_handler(id):
+async def collab_created_handler(id):
   print(redis_url)
   r = redis.Redis.from_url(redis_url, decode_responses=True)
-  collab_list = r.lrange("bitrix24_collabs", 0, -1)
+  collab_list = r.lrange("b24_collabs", 0, -1)
   print(collab_list)
   async with httpx.AsyncClient() as client:
     collab_data = await get_collab_data(client, id)
     print(collab_data["TYPE"] == "collab", collab_data["ORDINARY_MEMBERS"], id not in collab_list)
-    if collab_data["TYPE"] == "collab" and collab_data["ORDINARY_MEMBERS"] and id not in collab_list:
-      users = await get_users(client)
-      extranet_users = [user for user in users if user["ID"] in collab_data["MEMBERS"]]
-      if extranet_users:
-        crm_object_id = await create_crm_object(client)
-        await create_tasks(client, id, crm_object_id, collab_data["OWNER_ID"], extranet_users[0]["ID"], template_list)
-        r.rpush("bitrix24_collabs", id)
+    if collab_data["TYPE"] == "collab":
+      r.rpush("b24_collabs", id)
+
+async def check_collabs():
+  r = redis.Redis.from_url(redis_url, decode_responses=True)
+  collab_list = r.lrange("bitrix24_collabs", 0, -1)
+  print(collab_list)
+  async with httpx.AsyncClient() as client:
+    users = await get_users(client)
+    for collab in collab_list:
+      success = process(client, users, collab)
+      if success:
+        r.
+async def process(client, users, id):
+  collab_data = await get_collab_data(client, id)
+  collab_guests = [user for user in users if user["ID"] in collab_data["MEMBERS"]]
+  if collab_guests:
+    crm_object_id = await create_crm_object(client)
+    await create_tasks(client, id, crm_object_id, collab_data["OWNER_ID"], collab_guests[0]["ID"], template_list)
+    return true
+  return false 
   
 #Получить данные коллаборации по id
 async def get_collab_data(client, id):
