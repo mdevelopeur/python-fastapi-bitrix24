@@ -38,9 +38,10 @@ async def check_collabs():
   async with httpx.AsyncClient() as client:
     users = await get_users(client)
     for collab in collab_list:
-      success = process(client, users, collab)
+      success = await process(client, users, collab)
       if success:
-        r.
+        r.lrem("b24_collabs", 0, collab)
+        
 async def process(client, users, id):
   collab_data = await get_collab_data(client, id)
   collab_guests = [user for user in users if user["ID"] in collab_data["MEMBERS"]]
