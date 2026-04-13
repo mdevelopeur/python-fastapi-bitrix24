@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
-from api.functions import collab_update_handler
+from api.functions import collab_created_handler, check_collabs
 import multipart
 import re
 import traceback
@@ -17,19 +17,17 @@ app = FastAPI()
 @app.get('/api/update')
 async def get_handler():
     try:
-        result = await update_orders()
+        result = await check_collabs()
         return result 
     except Exception as e:
         print(e)
         return e
 
-@app.post('/api/post')
-async def post_handler(request: Request):
+@app.post('/api/collab_added')
+async def new_collab_handler(request: Request):
     try:
         body = await request.body()
         print(unquote(body))
-        #body = await request.json()
-        #print(body)
         form_data = await request.form()
         form_data = dict(form_data)
         result = await collab_update_handler(form_data["data[FIELDS][ID]"])
