@@ -30,7 +30,7 @@ async def new_collab_handler(request: Request):
         print(unquote(body))
         form_data = await request.form()
         form_data = dict(form_data)
-        result = await collab_update_handler(form_data["data[FIELDS][ID]"])
+        result = await collab_created_handler(form_data["data[FIELDS][ID]"])
         return result
     except Exception as e:
         print(e)
