@@ -48,8 +48,8 @@ async def process(client, users, id):
   if collab_guests:
     crm_object_id = await create_crm_object(client)
     await create_tasks(client, id, crm_object_id, collab_data["OWNER_ID"], collab_guests[0]["ID"], template_list)
-    return true
-  return false 
+    return True
+  return False
   
 #Получить данные коллаборации по id
 async def get_collab_data(client, id):
