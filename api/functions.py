@@ -84,7 +84,7 @@ async def create_crm_object(client):
   }
   response = await client.post(url, json=body)
   response = response.json()
-  return response["result"]["ID"]
+  return response["result"]["item"]["id"]
 
 async def create_tasks(client, group_id, crm_object_id, creator_id, responsible_id, template_list):
   task_list = []
