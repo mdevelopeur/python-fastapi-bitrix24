@@ -119,8 +119,10 @@ async def create_task_connection(client, task_id_from, task_id_to):
     "taskIdTo": task_id_to,
     "linkType": 3
   }
+  print(body)
   response = await client.post(url, json=body)
   response = response.json()
+  print(response)
   return response["result"]
 #async def batch_create_tasks(client, task_list):
   
