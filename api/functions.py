@@ -110,7 +110,7 @@ async def create_task(client, group_id, crm_object_id, creator_id, responsible_i
   response = await client.post(url, json=body)
   response = response.json()
   print(response)
-  return response["result"]
+  return response["result"]["task"]["id"]
 
 async def create_task_connection(client, task_id_from, task_id_to):
   url = bitrix24_url + "task.dependence.add"
