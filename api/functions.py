@@ -33,7 +33,7 @@ async def collab_created_handler(id):
 
 async def check_collabs():
   r = redis.Redis.from_url(redis_url, decode_responses=True)
-  collab_list = r.lrange("bitrix24_collabs", 0, -1)
+  collab_list = r.lrange("b24_collabs", 0, -1)
   print(collab_list)
   async with httpx.AsyncClient() as client:
     users = await get_users(client)
