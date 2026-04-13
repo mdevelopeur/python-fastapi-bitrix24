@@ -45,7 +45,7 @@ async def check_collabs():
 async def process(client, users, id):
   collab_data = await get_collab_data(client, id)
   extranet_users = await get_users(client)
-  collab_guests = [user for user in users if user["ID"] in collab_data["MEMBERS"]]
+  collab_guests = [user for user in extranet_users if int(user["ID"]) in collab_data["MEMBERS"]]
   if collab_guests:
     crm_object_id = await create_crm_object(client)
     await create_tasks(client, id, crm_object_id, collab_data["OWNER_ID"], collab_guests[0]["ID"], template_list)
