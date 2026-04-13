@@ -99,11 +99,12 @@ async def create_task(client, group_id, crm_object_id, creator_id, responsible_i
   url = bitrix24_url + "tasks.task.add"
   body = {
     "fields": {
-      "createdBy": creator_id,
-      "responsibleId": responsible_id, 
-      "groupId": group_id,
+      "TITLE": f"Задача по шаблону {template_id}", 
+      "CREATED_BY": creator_id,
+      "RESPONSIBLE_ID": responsible_id, 
+      "GROUP_ID": group_id,
       "UF_AUTO_710940755509": crm_object_id,
-      "forkedByTemplateId": template_id
+      "FORKED_BY_TEMPLATE_ID": template_id
     } 
   }
   response = await client.post(url, json=body)
