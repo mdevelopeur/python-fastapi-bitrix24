@@ -90,7 +90,7 @@ async def create_tasks(client, group_id, crm_object_id, creator_id, responsible_
   task_list = []
   for template_id in template_list:
     task_id = await create_task(client, group_id, crm_object_id, creator_id, responsible_id, template_id)
-    task_list.append(task_if)
+    task_list.append(task_id)
   for i in range(0, len(task_list), 2):
     await create_task_connection(client, task_list[i - 1], task_list[i])
 
