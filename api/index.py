@@ -21,6 +21,7 @@ async def get_handler():
         return result 
     except Exception as e:
         print(e)
+        traceback.print_exc()
         return e
         
 @app.post('/api/collab_added')
