@@ -22,7 +22,7 @@ async def get_handler():
     except Exception as e:
         print(e)
         return e
-
+        
 @app.post('/api/collab_added')
 async def new_collab_handler(request: Request):
     try:
@@ -32,6 +32,20 @@ async def new_collab_handler(request: Request):
         form_data = dict(form_data)
         result = await collab_update_handler(form_data["data[FIELDS][ID]"])
         return result
+    except Exception as e:
+        print(e)
+        traceback.print_exc()
+        return e
+
+@app.post('/api/task_updated')
+async def task_updated(request: Request):
+    try:
+        body = await request.body()
+        print(unquote(body))
+        form_data = await request.form()
+        form_data = dict(form_data)
+        #result = await collab_update_handler(form_data["data[FIELDS][ID]"])
+        #return result
     except Exception as e:
         print(e)
         traceback.print_exc()
